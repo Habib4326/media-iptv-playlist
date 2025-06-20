@@ -1,0 +1,41 @@
+name: Generate and Update M3U Playlist
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # প্রতিদিন ভোর 6টায় (UTC) অটোমেটিক রান হবে
+  workflow_dispatch:
+
+jobs:
+  update-playlist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run script to generate playlist
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: |
+          python scripts/generate_playlist.py
+
+      - name: Update stats.json
+        run: |
+          # এখানে stats.json ফাইলটি জেনারেট করার বা আপডেট করার কোড লিখতে হবে
+          # উদাহরণস্বরূপ:
+          echo '{"movies": 100, "tv_shows": 50}' > data/stats.json
+
+      - name: Commit and push if playlist changed
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add playlists/* data/stats.json
+          git commit -m "Auto-update: Generated M3U playlist and updated stats" || echo "No changes to commit"
+          git push
