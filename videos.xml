@@ -1,0 +1,12 @@
+<videos>
+  <item>
+    <title>Sample Video 1</title>
+    <link>https://example.com/video1.mp4</link>
+    <fanart>https://example.com/fanart1.jpg</fanart>
+  </item>
+  <item>
+    <title>Sample Video 2</title>
+    <link>https://example.com/video2.mp4</link>
+    <fanart>https://example.com/fanart2.jpg</fanart>
+  </item>
+</videos>
